@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools==81.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "curv-block-discard"
+version = "0.1.0"
+description = "Measure the curvature discarded by block-diagonal neural-network approximations"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = {text = "MIT"}
+authors = [
+  {name = "Maxim Bolshim", email = "maxim.bolshim@yandex.ru"},
+  {name = "Alexander Kugaevskikh", email = "a-kugaevskikh@yandex.ru"},
+]
+dependencies = [
+  "torch==2.11.0", "torchvision==0.26.0", "numpy==2.4.4",
+  "scipy==1.17.1", "matplotlib==3.10.8", "curvlinops-for-pytorch==3.0.1",
+  "pillow==12.2.0", "datasets==5.0.0", "kagglehub==1.0.2",
+]
+
+[project.optional-dependencies]
+llm = ["transformers==5.17.0", "accelerate==1.15.0"]
+dev = ["pytest==9.0.3", "ruff==0.15.10", "mypy==1.20.0"]
+
+[project.scripts]
+curv-experiment = "experiments.main:main"
+curv-report = "paper_data.main:main"
+curv-pilot = "experiments.pilot:main"
+curv-merge = "experiments.merge_results:main"
+curv-crossing = "experiments.crossing.measure:main"
+curv-crossing-analyze = "experiments.crossing.analysis:main"
+curv-crossing-verify = "experiments.crossing.verify:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B"]
+ignore = ["E501", "E741", "W605"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["hessian", "secondorder", "experiments", "paper_data", "tests"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+no_implicit_optional = true
+warn_unused_configs = true
+files = ["src", "tests", "scripts"]
+
+[[tool.mypy.overrides]]
+module = ["torchvision.*", "matplotlib.*", "scipy.*", "curvlinops.*", "PIL.*", "kagglehub.*", "datasets.*", "transformers.*", "accelerate.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

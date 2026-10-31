@@ -1,0 +1,384 @@
+{
+  "schema": 1,
+  "interpretation": "Native screen is the original float32 project/lift result. Represented-factor Gram and map ratio use saved factors in float64; they are not native arithmetic or loss error bounds.",
+  "rows": [
+    {
+      "seed": 42,
+      "step": 20,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 2.3365020751953125e-05,
+        "eta_action": 0.12077503167120661
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999998170659399,
+        "gram_eigen_max": 1.0000236914152887,
+        "gram_max_entry_error": 2.3238385362667202e-05,
+        "gram_spectral_error": 2.369141528868468e-05,
+        "gram_condition": 1.0000238743537162,
+        "map_relative_difference": 9.959432580230788e-06
+      }
+    },
+    {
+      "seed": 42,
+      "step": 20,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 3.612041473388672e-05,
+        "eta_action": 0.1246419356033818
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999997964777696,
+        "gram_eigen_max": 1.0000400511651792,
+        "gram_max_entry_error": 3.6119007988055785e-05,
+        "gram_spectral_error": 4.005116517924456e-05,
+        "gram_condition": 1.0000402546956024,
+        "map_relative_difference": 1.8369056508161648e-05
+      }
+    },
+    {
+      "seed": 42,
+      "step": 60,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.0002473592758178711,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.999999980665668,
+        "gram_eigen_max": 1.0002792618633465,
+        "gram_max_entry_error": 0.00024717365080118014,
+        "gram_spectral_error": 0.0002792618633464805,
+        "gram_condition": 1.0002792812030783,
+        "map_relative_difference": 0.0001480062334710199
+      }
+    },
+    {
+      "seed": 42,
+      "step": 60,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00026667118072509766,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000000182687259,
+        "gram_eigen_max": 1.0002685353791798,
+        "gram_max_entry_error": 0.0002670032904918962,
+        "gram_spectral_error": 0.00026853537917981285,
+        "gram_condition": 1.0002685171055485,
+        "map_relative_difference": 0.00015321074664372247
+      }
+    },
+    {
+      "seed": 42,
+      "step": 200,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.0006223917007446289,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000000384909578,
+        "gram_eigen_max": 1.0006225274273566,
+        "gram_max_entry_error": 0.0006224226826339052,
+        "gram_spectral_error": 0.0006225274273565784,
+        "gram_condition": 1.0006224889124387,
+        "map_relative_difference": 0.0002484599828132627
+      }
+    },
+    {
+      "seed": 42,
+      "step": 200,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00014734268188476562,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 29,
+        "gram_eigen_min": 0.9999995553247515,
+        "gram_eigen_max": 1.0001782239597425,
+        "gram_max_entry_error": 0.0001478811752855247,
+        "gram_spectral_error": 0.00017822395974254057,
+        "gram_condition": 1.0001786687144405,
+        "map_relative_difference": 8.63887309736885e-05
+      }
+    },
+    {
+      "seed": 43,
+      "step": 20,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 1.2993812561035156e-05,
+        "eta_action": 0.08653207621658196
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000001263737288,
+        "gram_eigen_max": 1.0000168303175865,
+        "gram_max_entry_error": 1.283314703348637e-05,
+        "gram_spectral_error": 1.6830317586480348e-05,
+        "gram_condition": 1.0000167039417467,
+        "map_relative_difference": 2.480337283646609e-06
+      }
+    },
+    {
+      "seed": 43,
+      "step": 20,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 1.5139579772949219e-05,
+        "eta_action": 0.1240271154277281
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.000000037894635,
+        "gram_eigen_max": 1.0000166905530845,
+        "gram_max_entry_error": 1.556889893361557e-05,
+        "gram_spectral_error": 1.6690553084508508e-05,
+        "gram_condition": 1.0000166526578185,
+        "map_relative_difference": 2.809155226682763e-06
+      }
+    },
+    {
+      "seed": 43,
+      "step": 60,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00012791156768798828,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999959683939322,
+        "gram_eigen_max": 1.0001295488597421,
+        "gram_max_entry_error": 0.00012798182856776918,
+        "gram_spectral_error": 0.0001295488597421457,
+        "gram_condition": 1.000133581004356,
+        "map_relative_difference": 7.097761608458087e-05
+      }
+    },
+    {
+      "seed": 43,
+      "step": 60,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.0002676248550415039,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000000396390263,
+        "gram_eigen_max": 1.0002687565425596,
+        "gram_max_entry_error": 0.0002675939412193351,
+        "gram_spectral_error": 0.000268756542559645,
+        "gram_condition": 1.0002687168928817,
+        "map_relative_difference": 0.0001573954151442978
+      }
+    },
+    {
+      "seed": 43,
+      "step": 200,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00040793418884277344,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.99987557098093,
+        "gram_eigen_max": 1.0004733296240302,
+        "gram_max_entry_error": 0.0004077423152903936,
+        "gram_spectral_error": 0.0004733296240302387,
+        "gram_condition": 1.0005978330308778,
+        "map_relative_difference": 0.00023203497644424915
+      }
+    },
+    {
+      "seed": 43,
+      "step": 200,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00038814544677734375,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999998901098781,
+        "gram_eigen_max": 1.000389350147274,
+        "gram_max_entry_error": 0.00038793877276122046,
+        "gram_spectral_error": 0.00038935014727403683,
+        "gram_condition": 1.0003894600801937,
+        "map_relative_difference": 0.00021005578467551842
+      }
+    },
+    {
+      "seed": 44,
+      "step": 20,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 1.9550323486328125e-05,
+        "eta_action": 0.13022654215115004
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000000067200523,
+        "gram_eigen_max": 1.0000200266842678,
+        "gram_max_entry_error": 1.9336822747240134e-05,
+        "gram_spectral_error": 2.0026684267815398e-05,
+        "gram_condition": 1.000020019964081,
+        "map_relative_difference": 6.722120435638592e-06
+      }
+    },
+    {
+      "seed": 44,
+      "step": 20,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 2.753734588623047e-05,
+        "eta_action": 0.1455959655921921
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.999980901584179,
+        "gram_eigen_max": 1.0000327364128048,
+        "gram_max_entry_error": 2.756446573903837e-05,
+        "gram_spectral_error": 3.273641280476802e-05,
+        "gram_condition": 1.000051835818608,
+        "map_relative_difference": 1.180998514194187e-05
+      }
+    },
+    {
+      "seed": 44,
+      "step": 60,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 7.283687591552734e-05,
+        "eta_action": 0.3486785239713927
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999997118188622,
+        "gram_eigen_max": 1.0000745750500803,
+        "gram_max_entry_error": 7.287401705324825e-05,
+        "gram_spectral_error": 7.457505008034992e-05,
+        "gram_condition": 1.0000748632527923,
+        "map_relative_difference": 2.7309211668257387e-05
+      }
+    },
+    {
+      "seed": 44,
+      "step": 60,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00023949146270751953,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 1.0000001854006486,
+        "gram_eigen_max": 1.000247047592847,
+        "gram_max_entry_error": 0.00023966273374798064,
+        "gram_spectral_error": 0.000247047592847105,
+        "gram_condition": 1.00024686214643,
+        "map_relative_difference": 0.0001307878157940268
+      }
+    },
+    {
+      "seed": 44,
+      "step": 200,
+      "drawset": "primary",
+      "native_screen": {
+        "status": "resolved",
+        "max_entry_error": 5.173683166503906e-05,
+        "eta_action": 0.5098686433976127
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9999907490218206,
+        "gram_eigen_max": 1.00005199712864,
+        "gram_max_entry_error": 5.164970685900272e-05,
+        "gram_spectral_error": 5.199712863990236e-05,
+        "gram_condition": 1.0000612486734295,
+        "map_relative_difference": 2.8976116715139915e-05
+      }
+    },
+    {
+      "seed": 44,
+      "step": 200,
+      "drawset": "sensitivity",
+      "native_screen": {
+        "status": "nonorthogonal_basis",
+        "max_entry_error": 0.00022593140602111816,
+        "eta_action": null
+      },
+      "represented_factor": {
+        "status": "available",
+        "raw_columns": 30,
+        "retained_columns": 28,
+        "gram_eigen_min": 0.9998851644807657,
+        "gram_eigen_max": 1.0003925505577218,
+        "gram_max_entry_error": 0.00022587032134704422,
+        "gram_spectral_error": 0.0003925505577218047,
+        "gram_condition": 1.0005074443495914,
+        "map_relative_difference": 0.00017657414716020775
+      }
+    }
+  ]
+}
