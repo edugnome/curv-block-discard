@@ -1,6 +1,7 @@
 # Profile-aware diagnostics of discarded parameter-Hessian mass
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.01335-b31b1b.svg)](https://arxiv.org/abs/2611.01335)
+[![DOI](https://zenodo.org/badge/1441269179.svg)](https://doi.org/10.5281/zenodo.23914947)
 
 Research code and experimental records for **Profile-aware diagnostics of
 discarded parameter-Hessian mass**.
@@ -12,6 +13,7 @@ _Neurocomputing_ is planned.
 
 [Preprint](https://arxiv.org/abs/2611.01335) |
 [Paper PDF](https://arxiv.org/pdf/2611.01335) |
+[Archived code and data](https://doi.org/10.5281/zenodo.23914948) |
 [Reproduce results](#reproduce-the-paper-results) |
 [Experimental data](data/README.md) |
 [Reproduction guide](REPRODUCING.md) |
@@ -183,6 +185,19 @@ If you use the code or experimental records, please cite the arXiv preprint:
   archivePrefix = {arXiv},
   primaryClass  = {cs.LG},
   url           = {https://arxiv.org/abs/2611.01335}
+}
+```
+
+For the archived software and experimental records:
+
+```bibtex
+@software{bolshim2026curvblockdiscard,
+  title   = {curv-block-discard: curvature discarded by block-diagonal preconditioning},
+  author  = {Bolshim, Maxim and Kugaevskikh, Alexander},
+  year    = {2026},
+  version = {1.0.0},
+  doi     = {10.5281/zenodo.23914948},
+  url     = {https://doi.org/10.5281/zenodo.23914948}
 }
 ```
 

@@ -3,7 +3,10 @@ title: "curv-block-discard: curvature discarded by block-diagonal preconditionin
 message: "If you use this software or its experimental records, please cite the arXiv preprint below."
 type: software
 license: MIT
-version: 0.1.0
+version: 1.0.0
+date-released: 2026-11-03
+doi: 10.5281/zenodo.23914948
+url: "https://doi.org/10.5281/zenodo.23914948"
 authors:
   - given-names: Maxim
     family-names: Bolshim

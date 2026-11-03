@@ -4,6 +4,8 @@ Scientific records for *Profile-aware diagnostics of discarded
 parameter-Hessian mass*, by Maxim Bolshim and Alexander Kugaevskikh
 ([arXiv:2611.01335](https://arxiv.org/abs/2611.01335)).
 The authors' records are licensed under [MIT](LICENSE).
+The archived software and data are available on
+[Zenodo](https://doi.org/10.5281/zenodo.23914948).
 
 ## Contents
 
