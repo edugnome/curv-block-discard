@@ -1,12 +1,17 @@
 # Profile-aware diagnostics of discarded parameter-Hessian mass
 
+[![arXiv](https://img.shields.io/badge/arXiv-2611.01335-b31b1b.svg)](https://arxiv.org/abs/2611.01335)
+
 Research code and experimental records for **Profile-aware diagnostics of
 discarded parameter-Hessian mass**.
 
 **Maxim Bolshim, Alexander Kugaevskikh**
 
-Unpublished manuscript.
+The manuscript is available as an **arXiv preprint**. Submission to
+_Neurocomputing_ is planned.
 
+[Preprint](https://arxiv.org/abs/2611.01335) |
+[Paper PDF](https://arxiv.org/pdf/2611.01335) |
 [Reproduce results](#reproduce-the-paper-results) |
 [Experimental data](data/README.md) |
 [Reproduction guide](REPRODUCING.md) |
@@ -167,14 +172,17 @@ under `working/build/release/`; it performs no upload.
 
 ## Citation
 
-If you use the code or experimental records, please cite the manuscript:
+If you use the code or experimental records, please cite the arXiv preprint:
 
 ```bibtex
 @misc{bolshim2026profile,
-  title  = {Profile-aware diagnostics of discarded parameter-Hessian mass},
-  author = {Bolshim, Maxim and Kugaevskikh, Alexander},
-  year   = {2026},
-  note   = {Unpublished manuscript}
+  title         = {Profile-aware diagnostics of discarded parameter-Hessian mass},
+  author        = {Bolshim, Maxim and Kugaevskikh, Alexander},
+  year          = {2026},
+  eprint        = {2611.01335},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2611.01335}
 }
 ```
 

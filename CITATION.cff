@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "curv-block-discard: curvature discarded by block-diagonal preconditioning"
-message: "Cite this software using these metadata. No release DOI is assigned yet."
+message: "If you use this software or its experimental records, please cite the arXiv preprint below."
 type: software
 license: MIT
 version: 0.1.0
@@ -17,3 +17,16 @@ keywords:
   - Hessian
   - block-diagonal preconditioning
   - second-order optimization
+preferred-citation:
+  type: article
+  title: "Profile-aware diagnostics of discarded parameter-Hessian mass"
+  authors:
+    - given-names: Maxim
+      family-names: Bolshim
+      orcid: "https://orcid.org/0009-0009-3037-9852"
+    - given-names: Alexander
+      family-names: Kugaevskikh
+      orcid: "https://orcid.org/0000-0002-6676-0518"
+  journal: arXiv
+  year: 2026
+  url: "https://arxiv.org/abs/2611.01335"
