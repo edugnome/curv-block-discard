@@ -47,7 +47,10 @@ _SHORT = {
     "resnet34": "R34",
     "resnet50": "R50",
 }
-_BAR_STYLE = {"init": "fill=blue!40", "final": "fill=red!60"}
+_BAR_STYLE = {
+    "init": "fill=blue!40",
+    "final": "fill=red!60, postaction={pattern=north east lines, pattern color=black!65}",
+}
 _LADDER_STYLE = [
     ("exp9", "blue, thick, mark=*", "toy decoders"),
     ("exp9_a3_llm", "red, only marks, mark=square*", "frozen LLMs"),
@@ -133,8 +136,8 @@ def fig_phi_map(
         labels = ",".join(label for label, _ in bars)
         panels.append(
             f"    \\nextgroupplot[title={{(a) convolutional runs}}, ybar,\n"
-            f"      bar width=5pt, symbolic x coords={{{labels}}}, xtick=data,\n"
-            f"      x tick label style={{rotate=45, anchor=east, font=\\footnotesize}},\n"
+            f"      bar width=7pt, symbolic x coords={{{labels}}}, xtick=data,\n"
+            f"      x tick label style={{rotate=45, anchor=east, font=\\fontfamily{{phv}}\\fontsize{{9}}{{11}}\\selectfont}},\n"
             f"      enlarge x limits=0.1, ymin=0, ymax=1]\n" + "\n".join(series)
         )
 
@@ -170,38 +173,45 @@ def fig_phi_map(
         group = "1 by 1"
     else:
         plots = "\n".join(panels)
-        group = f"{len(panels)} by 1"
+        group = f"1 by {len(panels)}"
 
     return rf"""\begin{{figure*}}[t]
   \centering
-  \begin{{tikzpicture}}
+  \usetikzlibrary{{patterns}}
+  \begin{{tikzpicture}}[font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, line width=0.4pt]
     \begin{{groupplot}}[
+      axis line style={{line width=0.4pt}}, tick style={{line width=0.4pt}},
+      every axis plot/.append style={{line width=0.6pt}},
+      error bars/error bar style={{line width=0.6pt}},
+      error bars/error mark options={{line width=0.6pt}},
       group style={{
         group size={group},
-        horizontal sep=1.8cm,
+        vertical sep=106pt,
       }},
-      width=0.48\textwidth,
-      height=5.5cm,
+      scale only axis, width=318pt,
+      height=110pt,
+      ytick={{0,0.2,0.4,0.6,0.8,1}},
       ylabel={{$\Phi$}},
       grid=major,
-      grid style={{gray!30}},
-      tick label style={{font=\footnotesize}},
-      label style={{font=\small}},
-      title style={{yshift=1.7em}},
-      legend style={{font=\footnotesize, at={{(0.5,1.03)}}, anchor=south}},
+      grid style={{gray!20, line width=0.35pt}},
+      tick label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      title style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0,1)}}, anchor=south west, yshift=26pt}},
+      legend style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0.5,1.03)}}, anchor=south, draw=none, /tikz/column 2/.style={{column sep=5pt}}, /tikz/column 4/.style={{column sep=5pt}}}},
       legend columns=2, legend cell align=left,
     ]
 {plots}
     \end{{groupplot}}
   \end{{tikzpicture}}
-  \caption{{Stage A: the discarded-coupling fraction $\Phi$ by run
-    ($\pm 1\sigma$ over seeds). Read these raw values against the size and
-    diagonal-profile references in Table~\ref{{tab:phi-map}}.
-    \textbf{{(a)}}~Convolutional runs at init and final: ResNet-18 vs.\ its
-    skip-free control (CIFAR-100; /W the width/depth axis, /IN32 ImageNet-32,
-    /pre the ResNet-50 before finetuning (ImageNet weights, new random head)).
-    \textbf{{(b)}}~Decoders against parameter count: the untrained toy ladder and
-    the frozen, pretrained LLMs.}}
+  \caption{{Raw discarded fractions across the model ladder.
+    Values are means $\pm 1\sigma$ over seeds; Table~\ref{{tab:phi-map}}
+    supplies the size and measured-profile references needed for comparison.
+    For all decoders, spread reflects Hutchinson probes on fixed models and inputs, not independent models.
+    \textbf{{(a)}}~Convolutional runs at initialisation (plain bars) and final checkpoints (hatched bars):
+    ResNet-18 and its skip-free control (CIFAR-100; /W denotes the width/depth comparison,
+    /IN32 ImageNet-32, /pre ImageNet-pretrained ResNet-50 with a new random head).
+    \textbf{{(b)}}~Untrained toy decoders and frozen pretrained language models
+    against parameter count; circles denote toy decoders and squares frozen language models}}
   \label{{fig:phi-map}}
 \end{{figure*}}"""
 
@@ -253,7 +263,7 @@ def _segments(stats: list[dict[str, Any]]) -> str | None:
     if not pieces:
         return None
     return (
-        "    \\addplot[gray!60, thin, no marks, forget plot] coordinates {\n        "
+        "    \\addplot[black!50, line width=0.4pt, no marks, forget plot] coordinates {\n        "
         + "\n\n        ".join(pieces)
         + "\n    };"
     )
@@ -268,22 +278,23 @@ def _marker_series(stats: list[dict[str, Any]], style: str, legend: str) -> str:
     return (
         f"    \\addplot[only marks, {style}, mark size=1.8pt,\n"
         f"      error bars/.cd, y dir=both, y explicit, error mark=none,\n"
-        f"      error bar style={{thin}}] coordinates {{\n        {coords}\n"
+        f"      error bar style={{line width=0.6pt}}] coordinates {{\n        {coords}\n"
         f"    }}; \\addlegendentry{{{legend}}}"
     )
 
 
 def _labels(stats: list[dict[str, Any]], x_mid: float) -> list[str]:
-    """Text nodes at the ``_N_LABELS`` largest median ratios: to the right of a point in
-    the left half of the axis, to the left otherwise; above and below alternate down
-    the ranking (neighbouring extremes sit at the same coupling)."""
+    """Label the largest ratios to their left, alternating above and below.
+
+    The two clusters of extremes need outward space at the print font size.
+    """
     nodes: list[str] = []
     ranked = sorted(stats, key=lambda s: -s["e"])[:_N_LABELS]
     for rank, stat in enumerate(ranked):
         vertical = "south" if rank % 2 == 0 else "north"
-        horizontal, shift = ("west", 2) if stat["c"] <= x_mid else ("east", -2)
+        horizontal, shift = "east", -4
         nodes.append(
-            f"    \\node[font=\\scriptsize, anchor={vertical} {horizontal},"
+            f"    \\node[font=\\fontfamily{{phv}}\\fontsize{{9}}{{11}}\\selectfont, anchor={vertical} {horizontal},"
             f" inner sep=1pt, xshift={shift}pt]\n"
             f"      at (axis cs:{stat['c']:.4f},{stat['e']:.4e}) {{{_pair_name(stat)}}};"
         )
@@ -332,7 +343,9 @@ def fig_eps_vs_C(exp7: dict[str, Any]) -> str:
         if not stats:
             log.info("fig:eps-vs-C: %s has no cross-term records -- left out", method)
             continue
-        prefix = f"{method_label(method)}: " if primary else ""
+        prefix = (
+            method_label(method).replace("COUPLE-FAC (", "").removesuffix(")") + ": "
+        )
         edge_style, other_style = _PAIR_STYLE.get(method, _PAIR_STYLE_DEFAULT)
         edge = [s for s in stats if s["v"] in _EDGE_BLOCKS]
         other = [s for s in stats if s["v"] not in _EDGE_BLOCKS]
@@ -354,9 +367,7 @@ def fig_eps_vs_C(exp7: dict[str, Any]) -> str:
         xmax = math.ceil((max(c_values) + _C_PAD) * 10) / 10
         ymin = _decade(min(s["e_low"] for s in drawn), "low")
         ymax = _decade(max(s["e_high"] for s in drawn), "high")
-        reference = (
-            f"    \\draw[gray, dashed, thin] (axis cs:{xmin},1) -- (axis cs:{xmax},1);"
-        )
+        reference = f"    \\draw[gray, dashed, line width=0.4pt] (axis cs:{xmin},1) -- (axis cs:{xmax},1);"
         body = "\n".join([reference, *plots, *_labels(primary, (xmin + xmax) / 2)])
         limits = f"      xmin={xmin}, xmax={xmax}, ymin={ymin:g}, ymax={ymax:g},\n"
         label, spearman = rhos[0]
@@ -386,18 +397,24 @@ def fig_eps_vs_C(exp7: dict[str, Any]) -> str:
 
     return rf"""\begin{{figure}}[t]
   \centering
-  \begin{{tikzpicture}}
+  \begin{{tikzpicture}}[font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, line width=0.4pt]
     \begin{{axis}}[
-      width=0.90\linewidth,
-      height=6.5cm,
+      axis line style={{line width=0.4pt}}, tick style={{line width=0.4pt}},
+      every axis plot/.append style={{line width=0.6pt}},
+      error bars/error bar style={{line width=0.6pt}},
+      error bars/error mark options={{line width=0.6pt}},
+      scale only axis, width=318pt,
+      height=220pt,
+      xtick={{0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1}},
+      ytick={{0.01,0.1,1,10,100}},
       ymode=log,
 {limits}      xlabel={{Coupling $\mathcal{{C}}(v,w)$ (median over records)}},
       ylabel={{Cross-term ratio $\varepsilon(v,w)$}},
       grid=major,
-      grid style={{gray!30}},
-      tick label style={{font=\footnotesize}},
-      label style={{font=\small}},
-      legend style={{font=\footnotesize, at={{(0.5,-0.2)}}, anchor=north}},
+      grid style={{gray!20, line width=0.35pt}},
+      tick label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      legend style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0.5,-0.22)}}, anchor=north, draw=none, /tikz/column 2/.style={{column sep=5pt}}, /tikz/column 4/.style={{column sep=5pt}}}},
       legend columns=2, legend cell align=left,
       clip=false,
     ]
@@ -407,11 +424,11 @@ def fig_eps_vs_C(exp7: dict[str, Any]) -> str:
   \caption{{The cross-term ratio $\varepsilon(v,w)$
     of~\eqref{{eq:cross-term}} against the coupling $\mathcal{{C}}(v,w)$ by which the
     correction ranks pairs for selection: {what}. The two orientations of a pair share
-    $\mathcal{{C}}(v,w)=\mathcal{{C}}(w,v)$ and are joined by a grey segment{edge_note};
+    $\mathcal{{C}}(v,w)=\mathcal{{C}}(w,v)$ and are joined by a segment{edge_note};
     the {n_labelled} largest ratios are labelled; the dashed line is
     $\varepsilon=1$. Descriptive {rho_note}; the cross-term ratio is ordered.
     This raw ordered comparison does not test symmetric or scale-adjusted targets;
-    retrospective per-seed associations are in Table~\ref{{tab:coupling-sensitivity}}.}}
+    retrospective per-seed associations are in Table~\ref{{tab:coupling-sensitivity}}}}
   \label{{fig:eps-vs-C}}
 \end{{figure}}"""
 
@@ -451,15 +468,15 @@ def fig_proposal_model_loss(exp7: dict[str, Any]) -> str:
     y = [_proposal_scale(v) for v in (*l_values, 0.0)]
     xmin, xmax = min(x) - 0.2, max(x) + 0.2
     ymin, ymax = min(y) - 0.2, max(y) + 0.2
-    methods = (("kfac+overlay", "K-FAC"), ("ekfac+overlay", "EKFAC"))
+    methods = (("kfac+overlay", "(a) K-FAC"), ("ekfac+overlay", "(b) EKFAC"))
     marks = {"seed_42": "*", "seed_43": "square*", "seed_44": "triangle*"}
     panels = []
     for method, name in methods:
         arm = result["arms"][method]
         lines = [
             f"    \\nextgroupplot[title={{{name}}}]",
-            f"    \\addplot[gray!60, thin, no marks, forget plot] coordinates {{({xmin:.12g},0) ({xmax:.12g},0)}};",
-            f"    \\addplot[gray!60, thin, no marks, forget plot] coordinates {{(0,{ymin:.12g}) (0,{ymax:.12g})}};",
+            f"    \\addplot[black!50, line width=0.4pt, no marks, forget plot] coordinates {{({xmin:.12g},0) ({xmax:.12g},0)}};",
+            f"    \\addplot[black!50, line width=0.4pt, no marks, forget plot] coordinates {{(0,{ymin:.12g}) (0,{ymax:.12g})}};",
         ]
         for seed in marks:
             rows = [row for row in arm["records"] if row["seed"] == seed]
@@ -478,13 +495,13 @@ def fig_proposal_model_loss(exp7: dict[str, Any]) -> str:
                 )
                 lines.append(
                     f"    \\addplot+[only marks, screenstage, mark={marks[seed]}, "
-                    f"mark size=1.6pt, mark options={{fill={fill}}}, "
+                    f"mark size=1.9pt, mark options={{fill={fill}}}, "
                     "forget plot] coordinates {\n"
                     f"{coords}\n    }};"
                 )
             lines.append(
                 f"    \\addlegendimage{{only marks, mark={marks[seed]}, screenstage}} "
-                f"\\addlegendentry{{{seed.removeprefix('seed_')}}}"
+                f"\\addlegendentry{{seed {seed.removeprefix('seed_')}}}"
             )
         lines.extend(
             [
@@ -496,33 +513,40 @@ def fig_proposal_model_loss(exp7: dict[str, Any]) -> str:
     body = "\n".join(panels)
     return rf"""\begin{{figure*}}[t]
   \centering
-  \begin{{tikzpicture}}
+  \begin{{tikzpicture}}[font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, line width=0.4pt]
     \definecolor{{screenstage}}{{HTML}}{{2A78D6}}
     \begin{{groupplot}}[
-      group style={{group size=2 by 1, horizontal sep=1.8cm}},
-      width=0.43\textwidth, height=6.5cm,
+      axis line style={{line width=0.4pt}}, tick style={{line width=0.4pt}},
+      every axis plot/.append style={{line width=0.6pt}},
+      error bars/error bar style={{line width=0.6pt}},
+      error bars/error mark options={{line width=0.6pt}},
+      group style={{group size=1 by 2, vertical sep=80pt}},
+      scale only axis, width=318pt, height=120pt,
       xmin={xmin:.12g}, xmax={xmax:.12g},
       ymin={ymin:.12g}, ymax={ymax:.12g},
       {_proposal_ticks(q_values, "x")}
       {_proposal_ticks(l_values, "y")}
       xlabel={{Signed-log $\Delta q$ (ticks: raw units)}},
       ylabel={{Signed-log $\Delta L$ (ticks: raw units)}},
-      grid=major, grid style={{gray!20}},
-      tick label style={{font=\scriptsize}},
-      legend style={{font=\scriptsize, at={{(0.5,-0.25)}}, anchor=north}},
+      grid=major, grid style={{gray!20, line width=0.35pt}},
+      tick label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      legend style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0.5,1.03)}}, anchor=south, draw=none, /tikz/column 2/.style={{column sep=5pt}}, /tikz/column 4/.style={{column sep=5pt}}}},
+      label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      title style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0,1)}}, anchor=south west, yshift=30pt}},
       legend columns=3,
     ]
 {body}
     \end{{groupplot}}
   \end{{tikzpicture}}
-  \caption{{All 450 raw proposals per method (150 per training seed):
-    $\Delta q=m_{{\rm proposal}}-m_{{\rm kfac}}-
-    \lambda(\|d_1\|^2-\|d_0\|^2)/2$ versus
-    $\Delta L=L(\theta+d_1)-L(\theta+d_0)$; negative is improvement.
+  \caption{{A lower quadratic value need not give lower finite minibatch loss.
+    Panels (a) K-FAC and (b) EKFAC show all 450 raw proposals per method
+    (150 per training seed):
+    $\Delta q=m_{{\rm proposal}}-m_{{\rm base}}-
+    \lambda(\|\mathbf{{d}}_1\|^2-\|\mathbf{{d}}_0\|^2)/2$ versus
+    $\Delta L=L(\boldsymbol{{\theta}}+\mathbf{{d}}_1)-L(\boldsymbol{{\theta}}+\mathbf{{d}}_0)$; negative means improvement over each method's own base candidate.
     Both axes use $T(z)=\operatorname{{sign}}(z)\log_{{10}}(1+|z|/10^{{-4}})$,
-    with ticks in raw units: zeros, opposing signs and every observation remain.
-    Shapes identify seeds; filled/hollow marks show native acceptance/rejection,
-    not applied losses. No gamma filtering is used. Refreshes within each training
-    trajectory are dependent; summaries are descriptive by training seed.}}
+    with ticks in raw units. Circles, squares and triangles identify seeds 42, 43 and 44; filled/hollow marks show
+    native acceptance/rejection of the raw candidate, not applied losses.
+    Refreshes within each training trajectory are dependent}}
   \label{{fig:proposal-model-loss}}
 \end{{figure*}}"""

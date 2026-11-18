@@ -25,7 +25,10 @@ def fig_crossing_screen(exp8_crossing_check: dict[str, Any]) -> str:
         "resolved_reverse_crossing": "X",
         "unresolved": "U",
     }
-    for model, title in (("resnet18", "ResNet-18"), ("plain_resnet18", "Plain-18")):
+    for model, title in (
+        ("resnet18", "(a) ResNet-18"),
+        ("plain_resnet18", "(b) Plain-18"),
+    ):
         rows = [cell for cell in cells if cell["model"] == model]
         labels = [
             f"{cell['seed']}/{cell['batch']} {statuses[cell['crossing']]}"
@@ -33,7 +36,7 @@ def fig_crossing_screen(exp8_crossing_check: dict[str, Any]) -> str:
         ]
         lines = [
             f"    \\nextgroupplot[title={{{title}}}, yticklabels={{{','.join(labels)}}}]",
-            "    \\addplot[gray!65, thin, no marks, forget plot] coordinates {(1,0.5) (1,6.5)};",
+            "    \\addplot[black!50, line width=0.4pt, no marks, forget plot] coordinates {(1,0.5) (1,6.5)};",
             "    \\addlegendimage{only marks, mark=square*, screenstage} \\addlegendentry{stage}",
             "    \\addlegendimage{only marks, mark=*, screenlayer} \\addlegendentry{layer}",
         ]
@@ -41,7 +44,7 @@ def fig_crossing_screen(exp8_crossing_check: dict[str, Any]) -> str:
             stage = cell["partitions"]["stage"]["S"]["estimate"]
             layer = cell["partitions"]["layer"]["S"]["estimate"]
             lines.append(
-                "    \\addplot+[no marks, gray!65, line width=0.7pt, forget plot] "
+                "    \\addplot+[no marks, black!50, line width=0.7pt, forget plot] "
                 f"coordinates {{({stage:.12g},{y}) ({layer:.12g},{y})}};"
             )
             for partition, color, mark in (
@@ -52,9 +55,9 @@ def fig_crossing_screen(exp8_crossing_check: dict[str, Any]) -> str:
                 lo, hi = cell["screen_95"][f"S_{partition}"]
                 lines.append(
                     "    \\addplot+[only marks, "
-                    f"{color}, mark={mark}, mark size=1.7pt, "
+                    f"{color}, mark={mark}, mark size=2.2pt, "
                     f"mark options={{fill={color}, draw={color}}}, forget plot, "
-                    "error bars/.cd, x dir=both, x explicit, error mark=none] coordinates "
+                    "error bars/.cd, x dir=both, x explicit, error mark=none, error bar style={line width=0.6pt}] coordinates "
                     f"{{({point:.12g},{y}) += ({hi - point:.12g},0) "
                     f"-= ({point - lo:.12g},0)}}; "
                     f"% {cell['id']} {partition} [{lo:.6f},{hi:.6f}]"
@@ -63,34 +66,41 @@ def fig_crossing_screen(exp8_crossing_check: dict[str, Any]) -> str:
     body = "\n".join(plots)
     return rf"""\begin{{figure*}}[t]
   \centering
-  \begin{{tikzpicture}}
+  \begin{{tikzpicture}}[font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, line width=0.4pt]
   \definecolor{{screenstage}}{{HTML}}{{2A78D6}}
   \definecolor{{screenlayer}}{{HTML}}{{C45638}}
 
     \begin{{groupplot}}[
-      group style={{group size=2 by 1, horizontal sep=1.8cm}},
-      width=0.43\textwidth, height=7.0cm,
+      axis line style={{line width=0.4pt}}, tick style={{line width=0.4pt}},
+      every axis plot/.append style={{line width=0.6pt}},
+      error bars/error bar style={{line width=0.6pt}},
+      error bars/error mark options={{line width=0.6pt}},
+      group style={{group size=1 by 2, vertical sep=80pt}},
+      scale only axis, width=300pt, height=100pt,
+      xtick={{0.8,1,1.2}},
       xmin={xmin - pad:.8g}, xmax={xmax + pad:.8g},
       ymin=0.5, ymax=6.5, ytick={{1,2,3,4,5,6}},
       y dir=reverse,
-      xlabel={{Separability $S$}},
-      xmajorgrids=true, ymajorgrids=false, grid style={{gray!20}},
-      tick label style={{font=\scriptsize}},
-      title style={{font=\small}},
-      legend style={{font=\scriptsize, at={{(0.5,-0.22)}}, anchor=north}},
+      xlabel={{Profile ratio $S$}},
+      xmajorgrids=true, ymajorgrids=false, grid style={{gray!20, line width=0.35pt}},
+      tick label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      label style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont}},
+      title style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0,1)}}, anchor=south west, yshift=26pt}},
+      legend style={{font=\fontfamily{{phv}}\fontsize{{9}}{{11}}\selectfont, at={{(0.5,1.03)}}, anchor=south, draw=none, /tikz/column 2/.style={{column sep=5pt}}, /tikz/column 4/.style={{column sep=5pt}}}},
       legend columns=2,
     ]
 {body}
     \end{{groupplot}}
   \end{{tikzpicture}}
-  \caption{{Same-state partition crossing of the profile envelope, six seed/input cells for each model.
-    Each row connects the stage (blue square) and layer (red circle) pooled-component
-    $S$ estimates; horizontal bars are the approximate 95\% joint screen
-    intervals, and the vertical reference is $S=1$. The screen is computed over
-    all 36 prespecified metrics (including 12 paired $\Delta S$), not just the
-    24 plotted $S$ values. Row codes are R: Resolved (stage lower endpoint
-    $>1$ and layer upper endpoint $<1$); X: Reverse (opposite exclusions);
-    U: Unresolved (all remaining outcomes, including an endpoint exactly at 1).
-    These are not across-seed $t$ intervals.}}
+  \caption{{At the same trained weights, changing the grouping can reverse the profile comparison.
+    Each row joins stage (square) and layer (circle) estimates for one
+    seed/input cell; there are six cells per model: (a) ResNet-18 and (b) Plain-18. Labels 42--44 denote
+    training seeds; B0 and B1 are two fixed, disjoint 32-image CIFAR-100 input
+    batches (test indices 0--31 and 32--63, respectively). The reference $S=1$
+    separates mass below ($S>1$) and above ($S<1$) the PSD profile envelope.
+    Bars show approximate 95\% joint conditional intervals over 36 metrics,
+    not across-seed intervals. R marks a resolved stage-to-layer crossing,
+    X the reverse and U an unresolved comparison. The screen and endpoint
+    rules are specified in \ref{{app:crossing-check}}}}
   \label{{fig:crossing-screen}}
 \end{{figure*}}"""

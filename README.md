@@ -1,18 +1,22 @@
-# Profile-aware diagnostics of discarded parameter-Hessian mass
+# Profile-aware assessment of block-diagonal Hessian approximations in neural networks
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.01335-b31b1b.svg)](https://arxiv.org/abs/2611.01335)
 [![DOI](https://zenodo.org/badge/1441269179.svg)](https://doi.org/10.5281/zenodo.23914947)
 
-Research code and experimental records for **Profile-aware diagnostics of
-discarded parameter-Hessian mass**.
+Research code and experimental records for **Profile-aware assessment of
+block-diagonal Hessian approximations in neural networks**.
 
 **Maxim Bolshim, Alexander Kugaevskikh**
 
-The manuscript is available as an **arXiv preprint**. Submission to
-_Neurocomputing_ is planned.
+**Journal target:** [International Journal of Machine Learning and Cybernetics
+(IJMLC)](https://link.springer.com/journal/13042). The revised manuscript is
+prepared for submission; it has not yet been submitted.
+
+An earlier version is available as an **arXiv preprint**, titled
+*Profile-aware diagnostics of discarded parameter-Hessian mass*.
 
 [Preprint](https://arxiv.org/abs/2611.01335) |
-[Paper PDF](https://arxiv.org/pdf/2611.01335) |
+[Preprint PDF](https://arxiv.org/pdf/2611.01335) |
 [Archived code and data](https://doi.org/10.5281/zenodo.23914948) |
 [Reproduce results](#reproduce-the-paper-results) |
 [Experimental data](data/README.md) |
@@ -174,7 +178,8 @@ under `working/build/release/`; it performs no upload.
 
 ## Citation
 
-If you use the code or experimental records, please cite the arXiv preprint:
+If you use the code or experimental records, please cite the publicly available
+arXiv preprint under its original title:
 
 ```bibtex
 @misc{bolshim2026profile,

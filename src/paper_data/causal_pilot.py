@@ -494,7 +494,7 @@ def causal_pilot_table(causal_pilot: dict[str, Any]) -> str:
         [
             r"\bottomrule",
             r"\end{tabular}",
-            r"\caption{Frozen-state one-step refresh and surrogate comparisons; every gain is $L(d_0)-L(d)$ within the same loss function. Native gain uses the raw correction, not the accepted fallback. Grad. extra is the gradient-refresh native gain minus the best gain on the registered discrete scale grid. ReLU gain uses the fixed-ReLU surrogate. The last two columns are surrogate minus native losses at the baseline ($\Delta L_0$) and raw corrected ($\Delta L_1$) steps; positive values mean worse losses, not a native-loss improvement.}",
+            r"\caption{Frozen-state one-step refresh and surrogate comparisons; every gain is $L(\boldsymbol{\theta}+\mathbf{d}_0)-L(\boldsymbol{\theta}+\mathbf{d})$ within the same loss function. Native gain uses the raw correction, not the accepted fallback. Grad. extra is the gradient-refresh native gain minus the best gain on the registered discrete scale grid. ReLU gain uses the fixed-ReLU surrogate. The last two columns are surrogate minus native losses at the baseline ($\Delta L_0$) and raw corrected ($\Delta L_1$) steps; positive values mean worse losses, not a native-loss improvement.}",
             r"\label{tab:causal-pilot}",
             r"\end{table}",
         ]

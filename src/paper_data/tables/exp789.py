@@ -760,7 +760,7 @@ def _schedule_note(
         )
     low = min(phi for _, _, phi in seed_phis)
     return (
-        rf" $\Phi$ at a given accuracy depends on the schedule: here "
+        rf" The final ResNet $\Phi$ is higher in these runs: "
         rf"$\Phi_{{\mathrm{{final}}}}(\mathrm{{ResNet}})={long_final:.2f}$ "
         rf"(mean over 3~seeds) against ${low:.2f}$--${top:.2f}$ across the individual "
         f"seeds of the 100-epoch run{' and its replication' if replicated else ''} "
@@ -861,7 +861,7 @@ def tab_phi_long(
     with its standard deviation. $\Delta\Phi$ is the same-label difference
     $\Phi_{{\mathrm{{ResNet}}}}-\Phi_{{\mathrm{{Plain}}}}$ (mean$\,{{\pm}}\,1\sigma$
     over seeds). This is a matched-accuracy replication of the inversion: the
-    footer pairs each plain checkpoint after initialisation with the resnet checkpoint
+    footer pairs each plain checkpoint after initialisation with the ResNet checkpoint
     of the \emph{{same seed}} nearest in accuracy, kept when
     $|\Delta\mathrm{{acc}}|\le0.02$, rather than comparing at the same label.{schedule_note}}}
   \label{{tab:phi-long}}
