@@ -1,23 +1,22 @@
-# Profile-aware assessment of block-diagonal Hessian approximations in neural networks
+# When does off-block Hessian curvature help an optimization step?
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.01335-b31b1b.svg)](https://arxiv.org/abs/2611.01335)
 [![DOI](https://zenodo.org/badge/1441269179.svg)](https://doi.org/10.5281/zenodo.23914947)
 
-Research code and experimental records for **Profile-aware assessment of
-block-diagonal Hessian approximations in neural networks**.
+Research code and experimental records for **When does off-block Hessian curvature help an optimization step?**
 
-**Maxim Bolshim, Alexander Kugaevskikh**
+**Maxim Bolshim, Alexander Kugaevskikh** · Software version **3.0.0**
 
-**Journal target:** [International Journal of Machine Learning and Cybernetics
-(IJMLC)](https://link.springer.com/journal/13042). The revised manuscript is
-prepared for submission; it has not yet been submitted.
+**Journal target:** [Optimization Methods and Software](https://www.tandfonline.com/journals/goms20).
 
-An earlier version is available as an **arXiv preprint**, titled
-*Profile-aware diagnostics of discarded parameter-Hessian mass*.
+Should an off-block Hessian correction be discarded if testing it alone raises
+minibatch loss? At the proposed scale, that decision can discard a combination
+that improves on the base step. We measure both the missed improvement and the
+gain from rescaling the remaining correction.
 
 [Preprint](https://arxiv.org/abs/2611.01335) |
 [Preprint PDF](https://arxiv.org/pdf/2611.01335) |
-[Archived code and data](https://doi.org/10.5281/zenodo.23914948) |
+[Archived code and data](https://doi.org/10.5281/zenodo.23914947) |
 [Reproduce results](#reproduce-the-paper-results) |
 [Experimental data](data/README.md) |
 [Reproduction guide](REPRODUCING.md) |
@@ -25,28 +24,39 @@ An earlier version is available as an **arXiv preprint**, titled
 
 ## Overview
 
-The project measures the parameter-Hessian mass discarded by a block-diagonal
-approximation. It compares the off-block squared Frobenius fraction, Phi, with
-references determined by group sizes and measured diagonal-block norms. Separate
-experiments examine corrections to K-FAC/EKFAC steps and the agreement between
-quadratic models and finite-step loss.
+- **What the grouping omits.** The squared Frobenius fraction `Phi` measures
+  off-block mass. The diagonal-block norms give a sharp upper bound for that
+  fraction in positive semidefinite matrices with the same norm profile.
+  Comparing mass with this reference distinguishes a change in the diagonal
+  profile from a change in mass relative to that profile. Regrouping fixed
+  ResNet-18 weights from stages to layers moves the estimate across its own
+  partition-specific reference in all six CIFAR-100 checkpoint/input comparisons
+  under the conditional probe screen.
+- **What the omitted component does to a step.** On Stanford Cars, nine saved
+  ResNet-50 checkpoints from three K-FAC trajectories each have two paired
+  subspace draws. At unit scale, the off-block correction alone raises loss in
+  17 of 18 comparisons. The combination beats the remainder in ten, including
+  nine of those 17. At **seed 42, step 60**, only the combination improves on
+  the base step and passes the safeguard in both draws. Matching the correction
+  norms leaves the combination unchanged there, but shortening the remainder
+  gives a lower loss still. Norm matching reverses seven of the ten preferences.
+  The full training runs did not demonstrate a training gain.
 
-- **Structural diagnostics:** parameter-Hessian block norms, coupling, spectra,
-  and size/profile references for an explicit parameter partition.
-- **Experiments:** convolutional networks, frozen transformers, K-FAC/EKFAC
-  corrections, and finite-step validity along optimisation trajectories.
-- **Saved-state comparisons:** stage/layer partition crossings and full/off/rest
-  residual-input corrections with a common reduced geometry.
-- **Recorded data:** scalar measurements, loss curves, proposal outcomes, paired
-  components and geometry diagnostics used to generate the article results.
+A separate diagnostic on those nine checkpoints compares the predicted and
+measured slopes along the original correction at the **base-step endpoint**.
+Their signs differ at four checkpoints; seed 42, step 60 is not one of them.
+See [the record-level checks](REPRODUCING.md#checking-the-main-comparisons)
+for the corresponding data and field names.
 
-On the saved trained ResNet-18 states, changing from stage groups to layers moves
-estimated discarded mass across the profile envelope. In the residual-input
-comparison, off-group input alone increases loss in 17 of 18 state/geometry
-cases. The full candidate has lower loss than the remainder-only candidate in
-nine of those cases; seven of the ten full-over-remainder preferences reverse
-after correction-norm matching. These comparisons concern the reported states,
-partitions and correction scales.
+## About this revision
+
+This is a revision of the same manuscript as the [earlier preprint](https://arxiv.org/abs/2611.01335v3).
+After the earlier submissions, we reread the paper and found that its main
+result was hard to identify. The text did not clearly distinguish a combined
+correction that beats the remainder from one that also improves on the base
+step. We revised the abstract, results, discussion and captions to make those
+comparisons explicit and to show separately what changes when the remainder
+is shortened. This editorial revision did not change the measurements.
 
 ## Installation
 
@@ -178,12 +188,11 @@ under `working/build/release/`; it performs no upload.
 
 ## Citation
 
-If you use the code or experimental records, please cite the publicly available
-arXiv preprint under its original title:
+If you use the code or experimental records, please cite the [arXiv preprint](https://arxiv.org/abs/2611.01335):
 
 ```bibtex
 @misc{bolshim2026profile,
-  title         = {Profile-aware diagnostics of discarded parameter-Hessian mass},
+  title         = {When does off-block {Hessian} curvature help an optimization step?},
   author        = {Bolshim, Maxim and Kugaevskikh, Alexander},
   year          = {2026},
   eprint        = {2611.01335},
@@ -193,16 +202,17 @@ arXiv preprint under its original title:
 }
 ```
 
-For the archived software and experimental records:
+For the software and experimental records, the following DOI identifies the
+project across all releases. To cite a specific release, use its version and
+version-specific DOI from Zenodo (for example, [release 2.0.0](https://doi.org/10.5281/zenodo.24343776)).
 
 ```bibtex
 @software{bolshim2026curvblockdiscard,
-  title   = {curv-block-discard: curvature discarded by block-diagonal preconditioning},
-  author  = {Bolshim, Maxim and Kugaevskikh, Alexander},
-  year    = {2026},
-  version = {1.0.0},
-  doi     = {10.5281/zenodo.23914948},
-  url     = {https://doi.org/10.5281/zenodo.23914948}
+  title  = {When does off-block {Hessian} curvature help an optimization step?},
+  author = {Bolshim, Maxim and Kugaevskikh, Alexander},
+  year   = {2026},
+  doi    = {10.5281/zenodo.23914947},
+  url    = {https://doi.org/10.5281/zenodo.23914947}
 }
 ```
 

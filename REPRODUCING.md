@@ -1,5 +1,7 @@
 # Reproducing the results
 
+**When does off-block Hessian curvature help an optimization step?** — repository version **3.0.0**.
+
 Use Python 3.12 and install from the repository root:
 
 ```sh
@@ -59,6 +61,17 @@ These calculate 900 proposal-decomposition rows and 144 contrast rows from
 recorded measurements. They perform no model evaluations. The contrast export
 contains 126 scale comparisons and 18 norm-matched full/rest comparisons.
 Field conventions and available observations are described in [data/README.md](data/README.md).
+
+## Checking the main comparisons
+
+You can inspect these bundled files directly; no export or model run is needed.
+
+| Question | File and selection | What to read |
+| --- | --- | --- |
+| Which input helped at seed 42, step 60? | [Residual candidates](data/tables/residual-ablation.jsonl): select `seed=42`, `step=60`, `kind=scale`, `alpha=1`; group by `drawset`. | Within each draw, compare `raw_delta_loss` for `arm=off`, `rest` and `full`, then `gates.accepted`. Only `full` lowers loss and is accepted. |
+| Does matching correction lengths change the choice? | [Residual contrasts](data/tables/residual-contrasts.jsonl): compare `type=scale`, `alpha=1` with `type=matched_full_rest` at the same `(seed, step, drawset)`. | `y` is full loss minus rest loss. At 42/60 it goes from negative to positive in both draws. `norm_match_scales` identifies which correction was shortened. |
+| Did the model predict the direction of change in loss at the endpoint? | [Frozen-state pilot](data/reporting/causal_pilot/results.json): use `rows` and each row's `native.comparison`. | Compare the signs of `predicted_endpoint_slope` and `endpoint_slope` along the original correction. They disagree at `(42,200)`, `(43,60)`, `(43,200)` and `(44,200)`. |
+| Does the grouping cross the profile reference at fixed weights and inputs? | [Crossing summary](data/tables/crossing-summary.jsonl): one row per `(model, seed, batch)`. | For a resolved stage-to-layer crossing, the joint conditional intervals in `observation.screen_95` put `S_stage` above one and `S_layer` below one. Read the recorded classification in `observation.crossing`; four Plain-18 cells remain unresolved. |
 
 ## Interpretation and fresh measurements
 

@@ -13,6 +13,8 @@ def _release_tree(monkeypatch, root):
             path.mkdir()
             filename = "measurements.json" if name == "data" else "example.py"
             (path / filename).write_text("{}\n")
+        elif name == "pyproject.toml":
+            path.write_text('[project]\nversion = "1.2.3"\n')
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("fixture\n")
@@ -42,6 +44,23 @@ def test_clean_preserves_data_and_environment(monkeypatch, tmp_path):
     assert sentinel.read_bytes() == b"\x01\x02"
     with pytest.raises(ValueError):
         project.clean(tmp_path / "data")
+
+
+def test_release_uses_configured_version(monkeypatch, tmp_path):
+    output = _release_tree(monkeypatch, tmp_path)
+    first = project.release(output)
+    (tmp_path / "pyproject.toml").write_text('[project]\nversion = "1.2.4"\n')
+    second = project.release(output)
+    assert first == output / "curv-block-discard-1.2.3.tar.gz" and first.is_file()
+    assert second == output / "curv-block-discard-1.2.4.tar.gz" and second.is_file()
+
+
+def test_release_rejects_path_in_version(monkeypatch, tmp_path):
+    output = _release_tree(monkeypatch, tmp_path)
+    (tmp_path / "pyproject.toml").write_text('[project]\nversion = "3/../other"\n')
+    with pytest.raises(ValueError):
+        project.release(output)
+    assert not output.exists()
 
 
 def test_release_refuses_existing_archive(monkeypatch, tmp_path):

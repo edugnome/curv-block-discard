@@ -1,7 +1,8 @@
 {
-  "title": "curv-block-discard: curvature discarded by block-diagonal preconditioning",
+  "title": "When does off-block Hessian curvature help an optimization step?",
   "upload_type": "software",
-  "description": "Scientific software and author-owned experimental records accompanying Profile-aware assessment of block-diagonal Hessian approximations in neural networks, prepared for submission to the International Journal of Machine Learning and Cybernetics (IJMLC). The revised manuscript has not yet been submitted. An earlier version, titled Profile-aware diagnostics of discarded parameter-Hessian mass, is available as arXiv:2611.01335 (https://arxiv.org/abs/2611.01335). The study compares parameter-Hessian mass with size/profile references and explicit partitions, with separate bounded correction and finite-step diagnostics. Code and author-owned records are MIT-licensed. Third-party datasets, model weights and dependencies retain their own terms.",
+  "version": "3.0.0",
+  "description": "Testing an off-block Hessian correction alone can discard a combined step that lowers minibatch loss. The code and records compare the standalone, remainder-only and combined corrections at a fixed base step, then test whether shortening the remainder changes the choice. A reference based on diagonal-block norms separates changes in the curvature profile from changes in relative off-block mass. Code and author-owned records are MIT-licensed; third-party inputs retain their own terms.",
   "creators": [
     {"name": "Bolshim, Maxim", "affiliation": "ITMO University", "orcid": "0009-0009-3037-9852"},
     {"name": "Kugaevskikh, Alexander", "affiliation": "ITMO University", "orcid": "0000-0002-6676-0518"}

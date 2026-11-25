@@ -186,13 +186,13 @@ def fig_validity(exp11: dict[str, Any] | None) -> str:
     secant_factor_tex = _one_sig_fig(secant_factor)
     if exp11 is not None and _far_shorter_from_step(exp11):
         scale_claim = (
-            "the damped model's extent is short relative to "
+            "The damped model's extent is short relative to "
             rf"the step at sampled probe steps $\ge{_FAR_SHORTER_FROM_STEP}$ "
             f"($t^*\\le{_FAR_SHORTER:g}$ on every seed)"
         )
     else:  # the bundle does not show it, so the caption does not claim it
         scale_claim = (
-            "the signed per-seed extents are reported in "
+            "The signed per-seed extents are reported in "
             r"Table~\ref{tab:validity}, probe step by probe step"
         )
 
@@ -229,13 +229,12 @@ def fig_validity(exp11: dict[str, Any] | None) -> str:
     distinguishes loss from model. Absolute curves do not show signs or establish
     validity: the sampled validity extent $t^*$ uses the signed per-seed inequality
     $|\Delta L-m|\le{tolerance:g}|\Delta L|$ at every sampled grid point in the initial prefix.
-    An empty prefix is reported as ${{<}}\,t_{{\min}}$.
     \textbf{{(b)}}~$\lambda_{{\max}}(\mathbf{{H}})$ and two measures of curvature along~$\mathbf{{d}}_0$:
     the pointwise value $\mathbf{{d}}_0^{{\top}}\mathbf{{H}}\mathbf{{d}}_0/\|\mathbf{{d}}_0\|^2$ and the secant value
     $\kappa_{{\mathrm{{sec}}}}
     =2\,(\Delta L(1)-\mathbf{{g}}^{{\top}}\mathbf{{d}}_0)/\|\mathbf{{d}}_0\|^2$ realised by the loss over the whole
     step. The pointwise curvature grows
     by a factor of ${curv_factor_tex}$ along the
-    trajectory while the secant value stays within a factor of~${secant_factor_tex}$: {scale_claim}}}
+    trajectory while the secant value stays within a factor of~${secant_factor_tex}$. {scale_claim}}}
   \label{{fig:validity}}
 \end{{figure*}}"""

@@ -658,8 +658,8 @@ def tab_phi_map(
     $\Phi_{{\mathrm{{sep}}}}$: the matched separable reference computed from that
     checkpoint's own diagonal block norms, which moves with the weights and is not a
     null. Both are computed per seed before averaging. For the band-estimated
-    decoder rows, the full norm is estimated separately. Frozen transformers are
-    measured once, with the seeds varying the Hutchinson probes. Checkpoints not applicable to a run read {NA}.}}
+    decoder rows, the full norm is estimated separately. For frozen transformers, weights and inputs are fixed;
+    only the Hutchinson probes vary across seeds. Checkpoints not applicable to a run read {NA}.}}
   \label{{tab:phi-map}}
   \footnotesize
   \setlength{{\tabcolsep}}{{2pt}}
@@ -857,10 +857,11 @@ def tab_phi_long(
   \caption{{The A1 inversion (ResNet-18 vs plain ResNet-18, CIFAR-100) on one
     300-epoch cosine schedule, both architectures, checkpoints \texttt{{init}}, every
     25~epochs, and \texttt{{final}} = epoch~300 with the learning rate annealed to 0;
-    accuracy and $\Phi$ (300 Hutchinson probes) are the mean over 3~seeds, $\Phi$ also
-    with its standard deviation. $\Delta\Phi$ is the same-label difference
-    $\Phi_{{\mathrm{{ResNet}}}}-\Phi_{{\mathrm{{Plain}}}}$ (mean$\,{{\pm}}\,1\sigma$
-    over seeds). This is a matched-accuracy replication of the inversion: the
+    accuracy and $\Phi$ (300 Hutchinson probes) are means over $n=3$ seeds.
+    Each architecture's $\Phi$ is shown with its descriptive standard deviation
+    (divisor $n$). For $\Delta\Phi=\Phi_{{\mathrm{{ResNet}}}}-\Phi_{{\mathrm{{Plain}}}}$
+    at the same checkpoint label, the mean and sample standard deviation
+    (divisor $n-1$) are taken over the paired within-seed differences. This is a matched-accuracy replication of the inversion: the
     footer pairs each plain checkpoint after initialisation with the ResNet checkpoint
     of the \emph{{same seed}} nearest in accuracy, kept when
     $|\Delta\mathrm{{acc}}|\le0.02$, rather than comparing at the same label.{schedule_note}}}

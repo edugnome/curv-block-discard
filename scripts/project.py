@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import shutil
 import tarfile
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,7 +71,13 @@ def release(output: Path) -> Path:
     output = output.resolve()
     if output == ROOT or ROOT.is_relative_to(output):
         raise ValueError("release output must not contain the source project")
-    archive = output / "curv-block-discard-0.1.0.tar.gz"
+    with (ROOT / "pyproject.toml").open("rb") as stream:
+        version = tomllib.load(stream)["project"]["version"]
+    if not isinstance(version, str) or not re.fullmatch(
+        r"[0-9][A-Za-z0-9.+!_-]*", version
+    ):
+        raise ValueError("project version cannot be used in an archive filename")
+    archive = output / f"curv-block-discard-{version}.tar.gz"
     checksum_path = archive.with_suffix(archive.suffix + ".sha256")
     for target in (archive, checksum_path):
         if target.exists() or target.is_symlink():

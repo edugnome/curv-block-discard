@@ -1435,13 +1435,14 @@ def ablation_controls(residual_ablation_v2: dict[str, Any]) -> str:
     extra_flags = (
         " Z denotes a near-zero correction, not a directional win." if has_zero else ""
     ) + (" /T flags a technical state." if has_technical_state else "")
+    if "---" in body:
+        extra_flags += " A dash denotes an unavailable minimum or pairwise comparison."
     return rf"""\begin{{table*}}[htbp]
   \centering
   \caption{{Scale and pairwise down-only norm diagnostics in fixed geometry.
-    Minima use the entire registered seven-point raw grid, including zero;
-    incomplete grids are unavailable. They are retrospective oracles, not an
-    online line search. Pair columns are left-minus-right raw $\Delta L$ at the
-    matched correction norms; missing raw/norm evidence is unavailable.{extra_flags}}}
+    Minima are taken retrospectively over the seven-point grid, including zero,
+    rather than by an online line search. Pair columns give left-minus-right
+    raw $\Delta L$ at matched correction norms.{extra_flags}}}
   \label{{tab:residual-controls}}
   \scriptsize
   \setlength{{\tabcolsep}}{{2pt}}

@@ -1,12 +1,18 @@
 cff-version: 1.2.0
-title: "curv-block-discard: curvature discarded by block-diagonal preconditioning"
-message: "If you use this software or its experimental records, please cite the arXiv preprint below."
+title: "When does off-block Hessian curvature help an optimization step?"
+message: "If you use this software or its experimental records, please cite the arXiv preprint below and identify the software version used."
 type: software
 license: MIT
-version: 1.0.0
-date-released: 2026-11-03
-doi: 10.5281/zenodo.23914948
-url: "https://doi.org/10.5281/zenodo.23914948"
+version: "3.0.0"
+url: "https://doi.org/10.5281/zenodo.23914947"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23914947"
+    description: "Zenodo concept DOI for all software releases."
+abstract: >-
+  Testing an off-block Hessian correction alone can discard a combined step that lowers minibatch loss.
+  The code and records compare the standalone, remainder-only and combined corrections at a fixed base step, then test whether shortening the remainder changes the choice.
+  A reference based on diagonal-block norms separates changes in the curvature profile from changes in relative off-block mass.
 authors:
   - given-names: Maxim
     family-names: Bolshim
@@ -22,7 +28,7 @@ keywords:
   - second-order optimization
 preferred-citation:
   type: article
-  title: "Profile-aware diagnostics of discarded parameter-Hessian mass"
+  title: "When does off-block Hessian curvature help an optimization step?"
   authors:
     - given-names: Maxim
       family-names: Bolshim

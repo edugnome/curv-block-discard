@@ -1,11 +1,13 @@
 # Experimental data
 
-Scientific records for *Profile-aware diagnostics of discarded
-parameter-Hessian mass*, by Maxim Bolshim and Alexander Kugaevskikh
-([arXiv:2611.01335](https://arxiv.org/abs/2611.01335)).
-The authors' records are licensed under [MIT](LICENSE).
-The archived software and data are available on
-[Zenodo](https://doi.org/10.5281/zenodo.23914948).
+Scientific records for *When does off-block Hessian curvature help an optimization
+step?* ([arXiv:2611.01335](https://arxiv.org/abs/2611.01335)), by Maxim Bolshim
+and Alexander Kugaevskikh. Repository version: **3.0.0**.
+They link the losses of standalone and combined corrections to the same base
+step, checkpoint and subspace draw. The authors' records are [MIT-licensed](LICENSE).
+[Zenodo](https://doi.org/10.5281/zenodo.23914947) provides the software and data
+archive across releases; [snapshot 2.0.0](https://doi.org/10.5281/zenodo.24343776)
+has its own version-specific DOI.
 
 ## Contents
 
@@ -36,6 +38,15 @@ individual quantities as columns.
   the base. Applied outcomes also account for the recorded gates.
 - In residual contrasts, `x` is off-minus-base, `y` is full-minus-rest and
   `j = y - x`. Scale and norm-matched comparisons are distinct row types.
+- [The contrast export](tables/residual-contrasts.jsonl) has 126 common-scale
+  contrasts and 18 matched `full/rest` contrasts. For **all three** norm-matched
+  pairs (`full/off`, `full/rest`, `off/rest`), use the
+  [candidate export](tables/residual-ablation.jsonl): `kind=matched_down_only`
+  gives 54 pairs, with two arm records per pair. Group by `seed`, `step`,
+  `drawset` and `candidate`. The other 378 records are common-scale candidates.
+- In the [frozen-state pilot](reporting/causal_pilot/results.json), the predicted
+  and measured endpoint slopes are stored under `rows[].native.comparison`.
+  They refer to the endpoint of the base displacement, not the corrected step.
 - Status/reason fields distinguish valid, unavailable, rejected and unresolved
   outcomes. Missing values are not zero. JSONL encodes nonfinite observations as
   `{"nonfinite":"NaN"}`, `{"nonfinite":"+Infinity"}` or

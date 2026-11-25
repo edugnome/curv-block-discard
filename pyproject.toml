@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "curv-block-discard"
-version = "0.1.0"
-description = "Measure the curvature discarded by block-diagonal neural-network approximations"
+version = "3.0.0"
+description = "When does off-block Hessian curvature help an optimization step? Experiments on correction screening and rescaling."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = {text = "MIT"}
